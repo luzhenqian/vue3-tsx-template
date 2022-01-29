@@ -2,6 +2,7 @@ const path = require('path')
 const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const tsImportPluginFactory = require('ts-import-plugin')
 
 module.exports = {
   entry: path.resolve(__dirname, './main.tsx'),
@@ -16,7 +17,22 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader'
+        loader: 'ts-loader',
+        options: {
+          transpileOnly: true,
+          getCustomTransformers: () => ({
+            before: [tsImportPluginFactory(
+              {
+                "libraryName": "vant",
+                "libraryDirectory": "es",
+                "style": true
+              }
+            )],
+          }),
+          compilerOptions: {
+            module: 'es2015',
+          },
+        },
       },
       {
         test: /\.tsx$/,

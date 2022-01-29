@@ -1,10 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import counterRoutes from './pages/counter/routes'
+import counterV1Routes from './pages/counter_v1/routes'
+import counterV2Routes from './pages/counter_v2/routes'
+import goodscartRoutes from './pages/goodscart/routes'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    ...counterRoutes
+    ...counterV1Routes,
+    ...counterV2Routes,
+    ...goodscartRoutes,
   ]
 })
 

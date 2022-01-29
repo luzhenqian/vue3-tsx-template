@@ -1,0 +1,26 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: red;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 12px;
+  width: 240px;
+  background: #fcfcfc;
+  border: 1px solid #e7e7e7;
+}
+
+.add-button, .remove-button {
+  width: 100%;
+  text-align: center;
+  background-color: pink;
+  border-radius: 4px;
+  padding: 4px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.remove-button {
+  background-color: red;
+  color: #fff;
+}

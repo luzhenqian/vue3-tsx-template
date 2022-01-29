@@ -1,25 +1,26 @@
 import { defineComponent, ref } from 'vue'
+import { Button } from 'vant'
 
 type Props = {
-  initialValue: number;
+  value: number;
 }
 
 export default defineComponent({
   props: {
-    initialValue: {
+    value: {
       type: Number,
       default: 0,
     }
   },
   emits: ['decrement', 'increment'],
   setup(props: Props, { emit }) {
-    const count = ref(props.initialValue)
+    const count = ref(props.value)
     const decrement = () => emit('decrement', count.value --)
     const increment = () => emit('increment', count.value ++)
     return () => <div>
       <div>{ count.value }</div>
-      <button onClick={decrement}>-</button>
-      <button onClick={increment}>+</button>
+      <Button type="primary" onClick={decrement}>-</Button>
+      <Button type="primary" onClick={increment}>+</Button>
     </div>
   }
 })

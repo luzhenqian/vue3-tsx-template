@@ -11,7 +11,19 @@ module.exports = merge(common, {
     },
     compress: true,
     port: 9000,
+    historyApiFallback: {
+      rewrites: [
+        {
+          from: /\.(js|css)/,
+          to: function(context) {
+            const pathname = context.parsedUrl.pathname
+            const pathTmp = pathname.split('/')
+            const len = pathTmp.length
+            return `/${pathTmp[len - 2]}/${pathTmp[len - 1]}`
+          }
+        }
+      ]
+    },
     hot: true,
-    historyApiFallback: true,
   }
 })
