@@ -29,18 +29,22 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    imageVisible: {
+      type: Boolean,
+      default: true,
+    }
   },
   setup(props) {
     const goodscartStore = useGoodscartStore()
     return () => <div class="card">
-      <div>
+      <div class="goods-name">
         {props.name}
       </div>
-      <div>
-        {/* <img src={props.img} /> */}
+      <div class="goods-details">
+        {props.imageVisible && <img src={props.img} />}
         <div>款式：{props.type}</div>
         <div>颜色：{props.color}</div>
-        <div>价格：{props.price}</div>
+        <div>价格：¥{props.price}</div>
       </div>
       <div class="add-button" onClick={() => goodscartStore.addToCart(props.id)}>
         添加到购物车
