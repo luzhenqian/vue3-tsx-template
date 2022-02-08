@@ -5,6 +5,7 @@ const goodscart = new GoodscartModel();
 const {
   goodsList,
   goodscartList,
+  goodsListLoading,
   total,
   quantity,
   initialGoodsList,
@@ -18,8 +19,9 @@ const {
 export const useGoodscartStore = defineStore("goodscart", {
   state() {
     return {
-      goodscartList: goodscartList,
-      goodsList: goodsList,
+      goodscartList,
+      goodsList,
+      goodsListLoading,
     };
   },
   actions: {

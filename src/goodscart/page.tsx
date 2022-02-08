@@ -1,5 +1,6 @@
 import { defineComponent, ref } from "vue";
 import _ from "lodash";
+import { Loading } from 'vant'
 import { useGoodscartStore } from "./store";
 import { GoodsList, Type, Color } from "./model";
 import Goods from "./components/goods_item";
@@ -41,7 +42,6 @@ export default defineComponent({
 
       return (
         <div class="page-container">
-
           <div class="goods-container">
             <div class="filter-item">
               <div class="filter-title">排序</div>
@@ -142,7 +142,7 @@ export default defineComponent({
             <div class="filter-item">
               <div class="filter-title">显示图片</div>
               <div
-                class={`${imageVisible.value ? 'default active' : 'default'}`}
+                class={`${imageVisible.value ? "default active" : "default"}`}
                 onClick={() => {
                   imageVisible.value = !imageVisible.value;
                 }}
@@ -152,19 +152,29 @@ export default defineComponent({
             </div>
 
             <div class="goods-container">
-              {filtedGoodsList.map((goods) => (
-                <Goods {...goods} v-model:imageVisible={imageVisible.value} />
-              ))}
+              {goodscartStore.goodsListLoading ? (
+                <div class="loading-wrapper">
+                  <Loading color="#272cf6" />
+                </div>
+              ) : (
+                filtedGoodsList.map((goods) => (
+                  <Goods {...goods} v-model:imageVisible={imageVisible.value} />
+                ))
+              )}
             </div>
-
           </div>
 
           <div class="goodscart-container">
             <div class="goodscart-goods-list">
               {goodscartStore.goodscartList.map((goods) => (
-                <GoodsCart {...goods} v-model:imageVisible={imageVisible.value} />
+                <GoodsCart
+                  {...goods}
+                  v-model:imageVisible={imageVisible.value}
+                />
               ))}
-              {goodscartStore.goodscartList.length === 0 && <div>您的购物车还没有添加商品哦！</div>}
+              {goodscartStore.goodscartList.length === 0 && (
+                <div>您的购物车还没有添加商品哦！</div>
+              )}
             </div>
 
             <div class="goodscart-order-wrapper">

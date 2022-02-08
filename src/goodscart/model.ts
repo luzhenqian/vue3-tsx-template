@@ -38,6 +38,8 @@ export interface IGoodscartModel {
   filter: Filter;
   order: string;
   imageVisible: boolean;
+  goodsListLoading: boolean;
+  goodscartLoading: boolean;
   goodsList: GoodsList;
   goodscartList: GoodscartList;
   total: () => number;
@@ -61,6 +63,8 @@ export class GoodscartModel implements IGoodscartModel {
   imageVisible: boolean = false;
   goodsList: GoodsList = [];
   goodscartList: GoodscartList = [];
+  goodsListLoading: boolean = false;
+  goodscartLoading: boolean = false;
   quantity() {
     return this.goodscartList.reduce((acc, item) => {
       return mathjs.chain(acc).add(item.price).multiply(item.amount).round(2).done();
@@ -70,7 +74,15 @@ export class GoodscartModel implements IGoodscartModel {
     return this.goodscartList.reduce((acc, item) => acc + item.amount, 0);
   }
   async initialGoodsList() {
-    this.goodsList = data as GoodsList;
+    this.goodsListLoading = true;
+    new Promise<GoodsList>((resolve, reject) => {
+      setTimeout(() => {
+        resolve(data as GoodsList)
+      }, 2000)
+    }).then((resData: GoodsList)=>{
+      this.goodsList = resData;
+      this.goodsListLoading = false;
+    })
   }
   async initialGoodscart() {
     this.goodscartList = [];
