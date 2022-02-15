@@ -1,0 +1,197 @@
+.container {
+  overflow: hidden;
+}
+
+.search-container {
+  position: fixed;
+  width: calc(100% - 6rem * 2);
+  height: 9rem;
+  padding: 4rem 6rem;
+  background: #ffffff;
+}
+
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 9rem;
+  background: #f9fafb;
+  border-radius: 2.5rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 3rem;
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+
+  background-image: url("./assets/search.png");
+  background-size: 100% 100%;
+}
+
+.search-input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+  border: none;
+  padding-left: 7rem;
+  outline: none;
+
+  font-size: 3.75rem;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666f83;
+  line-height: 5.25rem;
+}
+
+.search-placeholder {
+  height: calc(9rem + 2 * 4rem);
+}
+
+.content-wrapper {
+  padding: 0rem 6rem;
+  overflow: scroll;
+  max-height: calc(100vh - 9rem - 2 * 4rem);
+}
+
+.label {
+  height: 6rem;
+  font-size: 4.25rem;
+  font-family: PingFang-SC-Heavy, PingFang-SC;
+  font-weight: 800;
+  color: #111a34;
+  line-height: 6rem;
+}
+
+.city-name {
+  height: 5.63rem;
+  font-size: 4rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #111a34;
+  line-height: 5.63rem;
+}
+
+.index-bar {
+  width: 5.75rem;
+  width: auto;
+  height: 130rem;
+  border-radius: 2.25rem;
+  bottom: 17.5rem;
+  position: fixed;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  user-select: none;
+
+  z-index: 100;
+}
+
+.index-bar-char-wrapper{
+  padding: 0 3rem;
+  padding-left: 6rem;
+}
+
+.index-bar-char {
+  font-size: 3rem;
+  font-family: PingFangSC-Semibold, PingFang SC;
+  font-weight: 600;
+  color: #858b9c;
+  position: relative;
+  user-select: none;
+
+  width: 4.5rem;
+  height: 4.5rem;
+  text-align: center;
+}
+
+.active {
+  background: #1677ff;
+  color: #ffffff;
+  font-size: 2.75rem;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 4.5rem;
+  border-radius: 50%;
+}
+
+.active::before{
+  content: attr(data-code);
+  border-radius: 50%;
+  width: 11.75rem;
+  height: 11.75rem;
+
+  background: #C5CAD5;
+  font-size: 6.25rem;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 11.75rem;
+  text-align: center;
+
+  display: inline-block;
+  position: absolute;
+  left: calc(-7.5rem - 11.75rem);
+  top: calc(-3.63rem);
+}
+
+.current-loaction {
+  margin-top: 4.13rem;
+}
+
+.current-loaction-icon {
+  display: inline-block;
+  width: 4.25rem;
+  height: 4.25rem;
+
+  background-image: url("./assets/location.png");
+  background-size: 100% 100%;
+  vertical-align: middle;
+}
+
+.current-loaction-city {
+  margin-top: 4.88rem;
+  padding: 2.75rem 6.13rem;
+
+  background: #f9fafb;
+  border-radius: 2.5rem;
+  display: inline-block;
+}
+
+.current-location-city-name {
+  display: inline-block;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.current-selected-city-wrapper {
+  margin-top: 4.6rem;
+}
+
+.current-selected-city-name {
+  margin-top: 4.88rem;
+
+  display: inline-block;
+  height: 10rem;
+  background: #f9fafb;
+  border-radius: 2.5rem;
+  text-align: center;
+  padding: 2.13rem 8.5rem;
+  box-sizing: border-box;
+}
+
+.city-name-wrapper {
+  width: 100%;
+  height: 12rem;
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+}

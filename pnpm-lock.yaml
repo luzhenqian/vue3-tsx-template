@@ -8,8 +8,10 @@ specifiers:
   '@fortawesome/vue-fontawesome': ^3.0.0-5
   '@types/lodash': ^4.14.178
   '@vue/babel-plugin-jsx': ^1.1.1
+  axios: ^0.25.0
   babel-loader: ^8.2.3
   babel-plugin-import: ^1.13.3
+  cnchar: ^3.0.5
   css-loader: ^6.5.1
   html-webpack-plugin: ^5.5.0
   lodash: ^4.17.21
@@ -33,6 +35,8 @@ dependencies:
   '@fortawesome/free-solid-svg-icons': 5.15.4
   '@fortawesome/vue-fontawesome': 3.0.0-5_9e890373d14094b922d693b29dbd6766
   '@types/lodash': 4.14.178
+  axios: 0.25.0
+  cnchar: 3.0.5
   lodash: 4.17.21
   mathjs: 10.1.1
   pinia: 2.0.9_typescript@4.5.5+vue@3.2.27
@@ -965,6 +969,14 @@ packages:
       lodash: 4.17.21
     dev: true
 
+  /axios/0.25.0:
+    resolution: {integrity: sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==}
+    dependencies:
+      follow-redirects: 1.14.7
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /babel-loader/8.2.3_dfc450ce54b9de99856805a7be396663:
     resolution: {integrity: sha512-n4Zeta8NC3QAsuyiizu0GkmRcQ6clkV9WFUnUf1iXP//IeSKbWjofW3UHyZVwlOB4y039YQKefawyTn64Zwbuw==}
     engines: {node: '>= 8.9'}
@@ -1163,6 +1175,16 @@ packages:
       kind-of: 6.0.3
       shallow-clone: 3.0.1
     dev: true
+
+  /cnchar-types/3.0.5:
+    resolution: {integrity: sha512-RpCi0Ma/gPd4cpfJFpctjCiC82vlq0KoObsHMv8kVNBmDhjhvIcgy5kmO5DdfpZzyWosxH42pfST2QWmR+2vog==}
+    dev: false
+
+  /cnchar/3.0.5:
+    resolution: {integrity: sha512-WQtMy1J2JElKP88f1ebbJhn2UcU59yhMwVAJCP8TOZyuT+D46e3pOXEqgZwOghfngbq0jxmXh7x1nEXOHQbzwA==}
+    dependencies:
+      cnchar-types: 3.0.5
+    dev: false
 
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
@@ -1711,7 +1733,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
