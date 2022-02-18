@@ -35,14 +35,11 @@ export default defineComponent({
     const activeCode = ref("")
 
     watch(activeCode, (value) => {
-      console.log(value, 'value')
       if(value){
         const idxEl = document.getElementById(`idx-${value}`)
         const contentWrapper = document.querySelector('div.content-wrapper')
         if(idxEl && contentWrapper) {
-          // const rect = idxEl.getBoundingClientRect();
           contentWrapper.scroll(0, idxEl.offsetTop - 68)
-          // console.log(contentWrapper, rect)
         }
       }
     })
@@ -52,9 +49,9 @@ export default defineComponent({
     });
 
     const indexBarClick = throttle((event: TouchEvent) => {
-      console.log("event: ", event.target);
-      if(event.target && event.target.dataset){
-        activeCode.value = event.target.dataset.code
+      if(event.target && (event.target as HTMLElement).dataset){
+        activeCode.value = ((event.target as HTMLElement).dataset.code as string)
+        
         setTimeout(() => {
           activeCode.value = ''
         }, 1000);
@@ -135,7 +132,7 @@ export default defineComponent({
             )}
 
             {dataRender.map((data) => (
-              <div>
+              <div key={data.code}>
                 {data.type === "char" ? (
                   <div class="city-name-wrapper">
                     <div class="city-name" id={`idx-${data.name}`}>
@@ -157,6 +154,7 @@ export default defineComponent({
           <div class="index-bar">
             {letterArr.map((code) => (
               <div
+                key={code}
                 class="index-bar-char-wrapper"
                 onTouchstart={indexBarClick}
                 data-code={code}>

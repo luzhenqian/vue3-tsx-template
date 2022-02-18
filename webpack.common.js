@@ -7,8 +7,9 @@ const tsImportPluginFactory = require('ts-import-plugin')
 module.exports = {
   entry: path.resolve(__dirname, './main.tsx'),
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[hash].js'
+    publicPath: '/',
+    path: path.resolve(__dirname, 'vtt'),
+    filename: 'js/[fullhash].js'
   },
   externals: {
     Vue: 'vue'
@@ -61,7 +62,7 @@ module.exports = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'style/[hash].css'
+      filename: 'style/[fullhash].css'
     }),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, './public/index.ejs'),
