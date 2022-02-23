@@ -22,7 +22,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack -c ./webpack.prod.js",
-    "dev": "webpack serve -c ./webpack.dev.js"
+    "dev": "webpack serve -c ./webpack.dev.js",
+    "start": "serve ./vtt"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,7 @@
     "css-minimizer-webpack-plugin": "^3.4.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.5.2",
+    "serve": "^13.0.2",
     "ts-import-plugin": "^2.0.0",
     "ts-loader": "^9.2.6",
     "typescript": "^4.5.5",

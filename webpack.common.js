@@ -7,7 +7,7 @@ const tsImportPluginFactory = require('ts-import-plugin')
 module.exports = {
   entry: path.resolve(__dirname, './main.tsx'),
   output: {
-    publicPath: '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/vtt/' : '/',
     path: path.resolve(__dirname, 'vtt'),
     filename: 'js/[fullhash].js'
   },
