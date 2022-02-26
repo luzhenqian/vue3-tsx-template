@@ -13,5 +13,8 @@ module.exports = merge(common, {
     port: 9000,
     historyApiFallback: true,
     hot: true,
+  },
+  optimization: {
+    nodeEnv: 'localhost',
   }
 })

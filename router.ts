@@ -8,6 +8,7 @@ import citySelectRoutes from './src/city_select/routes'
 import refVsReactiveRoutes from './src/ref_vs_reactive/routes'
 import lifeCycleOrderRoutes from './src/life_cycle_order/routes'
 import nodeEnvRoutes from './src/node_env/routes'
+import redpacketRoutes from './src/red_packet/routes'
 
 const router = createRouter({
   history: createWebHistory('/vtt/'),
@@ -21,6 +22,7 @@ const router = createRouter({
     ...refVsReactiveRoutes,
     ...lifeCycleOrderRoutes,
     ...nodeEnvRoutes,
+    ...redpacketRoutes
   ]
 })
 

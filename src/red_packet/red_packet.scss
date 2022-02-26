@@ -1,0 +1,106 @@
+.container {
+  border-radius: 2rem;
+  [class*="icon"] {
+    display: inline-block;
+    background-size: 100% 100%;
+  }
+
+  .title {
+    margin-left: 1rem;
+    font-size: 3.5rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #666F83;
+    line-height: 5rem;
+  }
+
+  [class*="icon-arrow-"] {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-left: 1rem;
+  }
+  .icon-arrow-down {
+    background-image: url(./assets/images/arrow_down.png);
+  }
+  .icon-arrow-right {
+    background-image: url(./assets/images/arrow_right.png);
+  }
+  .icon-arrow-top {
+    background-image: url(./assets/images/arrow_down.png);
+    transform: rotateX(180deg);
+  }
+
+  .title-wrapper, .amount-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .discounted-amount {
+    font-size: 3rem;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #F93A4A;
+    line-height: 5rem;
+  }
+  
+  .activity {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    .title-wrapper {
+      .icon-activity {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1.25rem;
+        background-image: url(./assets/images/activity.png);
+      }
+    }
+  }
+
+  .redpacket {
+    display: flex;
+    justify-content: space-between;
+    .title-wrapper {
+      .icon-redpacket {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 1.25rem;
+        background-image: url(./assets/images/redpacket.png);
+      }
+    }
+    .amount-wrapper {
+      .can-use {
+        height: 5rem;
+        background: #FF3B30;
+        border-radius: 1rem;
+        font-size: 3rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 4.13rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+}
+
+.combination{
+  width: 100%;
+  padding: 0.5rem 3rem;
+}
+
+.independence {
+  width: 87.75rem;
+  background: #FFFFFF;
+  border-radius: 2rem;    
+  margin: auto;
+  padding: 3rem;
+
+  .title {
+    font-size: 3.75rem;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #111A34;
+    line-height: 5.25rem;
+  }
+}
