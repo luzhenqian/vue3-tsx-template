@@ -1,6 +1,5 @@
 import { defineComponent ,reactive,ref  } from 'vue'
-import axios from 'axios'
-import RedPacket, {RedPackets, Activities, initRedPackets } from './red_packet'
+import RedPacket, { RedPackets, Activities, initRedPackets } from './red_packet'
 import './styles.scss'
 
 export default defineComponent({
@@ -16,8 +15,8 @@ export default defineComponent({
 
     initRedPackets(
       {
-        'sid': '3ca68c504fa56217818d72ffe63927e5',
-        'expiration': '1645960890',
+        'sid': '46d1e1741700bba1dd64c935cd6ee8a0',
+        'expiration': '1646099915',
       },
       {
         "userId": "3ca68c504fa56217818d72ffe63927e5",
