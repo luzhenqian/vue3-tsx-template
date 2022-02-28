@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import _ from "lodash"
 import welcomeRoutes from './src/welcome/routes'
 import counterV1Routes from './src/counter_v1/routes'
 import counterV2Routes from './src/counter_v2/routes'
@@ -24,6 +25,17 @@ const router = createRouter({
     ...nodeEnvRoutes,
     ...redpacketRoutes
   ]
+})
+
+const context = require.context('./pages', true, /.tsx/)
+
+const dynamicRoutes = _.forEach(context.keys(), (modulePath: string) =>{
+  const routePath = modulePath.substring(1, modulePath.length).replaceAll('.tsx', '')
+  router.addRoute('vtt', {
+    path: routePath,
+    component: () => context(modulePath)
+    // import(`${modulePath}`)
+  })
 })
 
 export default router
