@@ -29,7 +29,7 @@ export default defineComponent({
       const selected = _.find(redPackets, ({id})=>id===selectedRedpacketId);
       return (
         <div class="mask" style={{ height: visible ? "100vh" : "0px" }}>
-          <div class="container">
+          <div class="container" style={{ height: visible ? "calc(87.5rem + 12.25rem)" : "0px" }}>
             <div class="header">
               <div class="sub-text" onClick={() => emit("close")}>
                 取消

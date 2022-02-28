@@ -1,4 +1,4 @@
-import { defineComponent, PropType, ref, reactive, watch } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import RedPacketSelectPanel from "./red_packet_select_panel";
 import _ from "lodash";
 import dayjs from "dayjs";
@@ -169,4 +169,19 @@ export async function initRedPackets(
     data,
   });
   return rawToData(response.data.data);
+}
+
+export async function checkPromotions(
+  headers: Record<string, string>,
+  data: any,
+  callback: (value: any) => void,
+  request: any = axios,
+  url: string = "https://dev-me.otosaas.com/api/promotion/v2/check_promotions",
+) {
+  const response = await request(url, {
+    method: "POST",
+    headers,
+    data,
+  });
+  callback(response.data.data);
 }
