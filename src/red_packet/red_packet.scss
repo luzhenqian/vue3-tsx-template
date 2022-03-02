@@ -21,6 +21,14 @@
     line-height: 5rem;
   }
 
+  .mutex-text {
+    font-size: 3.5rem;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #F93A4A;
+    line-height: 5rem;
+  }
+
   [class*="icon-arrow-"] {
     width: 4.5rem;
     height: 4.5rem;
@@ -51,7 +59,7 @@
     line-height: 5rem;
   }
 
-  .activity {
+  .activity, .sub-activity {
     display: flex;
     justify-content: space-between;
     margin-bottom: 3rem;
@@ -62,6 +70,23 @@
         border-radius: 1.25rem;
         background-image: url(./assets/images/activity.png);
       }
+    }
+  }
+
+  .sub-activity {
+    .title {
+      font-size: 3.5rem;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666F83;
+      line-height: 5rem;
+    }
+    .discounted-amount {
+      font-size: 3rem;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #858B9C;
+      line-height: 4.13rem;
     }
   }
 
@@ -92,7 +117,7 @@
   }
 }
 
-.combination {
+.contaier, .combination {
   width: 100%;
   padding: 0.5rem 3rem;
   box-sizing: border-box;
@@ -111,9 +136,26 @@
   .sub-title {
     color: #858B9C;
   }
+
+  .sub-activity {
+    .title {
+      font-size: 3.5rem;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #C5CAD5;
+      line-height: 5rem;
+    }
+    .discounted-amount {
+      font-size: 3rem;
+      font-family: PingFangSC-Medium, PingFang SC;
+      font-weight: 500;
+      color: #C5CAD5;
+      line-height: 5rem;
+    }
+  }
 }
 
-.independence {
+.contaier, .independence {
   width: 87.75rem;
   background: #ffffff;
   border-radius: 2rem;

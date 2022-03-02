@@ -21,7 +21,7 @@ export default defineComponent({
   },
   emits: ["close", "check", "clear", "exchange"],
   setup(props, { emit }) {
-    const exchangeVisible = ref(true);
+    const exchangeVisible = ref(false);
     const code = ref("");
     function check(id: string) {
       emit("check", id);

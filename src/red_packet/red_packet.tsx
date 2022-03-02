@@ -1,7 +1,7 @@
 import { defineComponent, PropType, ref } from "vue";
 import axios from "axios";
 import _ from "lodash";
-import { Toast } from 'vant'
+import { Toast } from "vant";
 import { mapping } from "./process_mapping";
 import RedPacketSelectPanel from "./red_packet_select_panel";
 import "./red_packet.scss";
@@ -55,19 +55,23 @@ export default defineComponent({
       type: Array as PropType<Activities>,
       default: () => [],
     },
-    mutex: {
-      type: Boolean,
-      default: false,
-    },
-    selectedRedpacketId: {
+    redPacketId: {
       type: String,
       default: "",
     },
   },
-  emits: ["openSelectPanel", "check", "clear", "closeSelectPanel", "exchange"],
+  emits: [
+    "openSelectPanel",
+    "check",
+    "clear",
+    "closeSelectPanel",
+    "exchange",
+    "checkActivityId",
+  ],
   methods: {},
   setup(props, { emit }) {
     const panelVisible = ref(false);
+    const activityExpand = ref(false);
     const openSelectPanel = () => (panelVisible.value = true);
     const closeSelectPanel = () => (panelVisible.value = false);
     function check(id: string) {
@@ -83,17 +87,36 @@ export default defineComponent({
         mode,
         redPackets,
         activities,
-        selectedRedpacketId,
+        redPacketId,
         containerStyle,
         readonly,
       } = props;
-      const activity = activities[0];
+      const activity = _.maxBy(
+        activities,
+        (activity) => activity.deductionPrice
+      );
       const selectedRedpacket = _.find(
         redPackets,
-        (redPacket) => redPacket.id === selectedRedpacketId
+        (redPacket) => redPacket.id === redPacketId
       );
+      const isMutex = () => {
+        return activity && activity.mutex && redPacketId;
+      };
+      if (activity) {
+        if (isMutex()) {
+          emit("checkActivityId", "");
+        } else {
+          emit("checkActivityId", activity.id);
+        }
+      }
       return (
-        <div class={`container ${mode}`} style={{ ...{pointerEvents: readonly ? 'none': 'auto'}, ...containerStyle }}>
+        <div
+          class={`container ${mode}`}
+          style={{
+            ...{ pointerEvents: readonly ? "none" : "auto" },
+            ...containerStyle,
+          }}
+        >
           <div class="activity">
             <div class="title-wrapper">
               <i class="icon-activity" />
@@ -103,26 +126,59 @@ export default defineComponent({
               {activities.length === 0 && (
                 <span class="sub-title">暂无平台活动</span>
               )}
-              {activities.length > 0 && (
-                <>
-                  <span class="discounted-amount">
-                    -¥{activity.deductionPrice}
-                  </span>
-                  {readonly ? "" : <i class="icon-arrow-down" />}
-                </>
+              {isMutex() ? (
+                <span class="mutex-text">与红包互斥</span>
+              ) : (
+                activities.length > 0 &&
+                activity && (
+                  <>
+                    <span class="discounted-amount">
+                      -¥{activity.deductionPrice}
+                    </span>
+                    {readonly ? (
+                      ""
+                    ) : (
+                      <i
+                        onClick={() => {
+                          activityExpand.value = !activityExpand.value;
+                        }}
+                        class="icon-arrow-down"
+                        style={{
+                          transform: activityExpand.value
+                            ? "rotate(180deg)"
+                            : "rotate(0deg)",
+                        }}
+                      />
+                    )}
+                  </>
+                )
               )}
             </div>
           </div>
+
+          {activityExpand.value &&
+            activities.map((activity) => {
+              return (
+                <div class="sub-activity">
+                  <div class="title-wrapper">
+                    <i class="icon-activity" />
+                    <span class="title">{activity.title}</span>
+                  </div>
+                  <div class="amount-wrapper">
+                    <span class="discounted-amount">
+                      -¥{activity.deductionPrice}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
 
           <div class="redpacket">
             <div class="title-wrapper">
               <i class="icon-redpacket" />
               <span class="title">红包抵扣/兑换红包</span>
             </div>
-            <div
-              class="amount-wrapper"
-              onClick={openSelectPanel}
-            >
+            <div class="amount-wrapper" onClick={openSelectPanel}>
               {redPackets.length === 0 && (
                 <span class="sub-title">暂无可用红包</span>
               )}
@@ -140,10 +196,10 @@ export default defineComponent({
           <RedPacketSelectPanel
             onCheck={check}
             onClose={closeSelectPanel}
-            onExchange={(code) => emit('exchange', code)}
+            onExchange={(code) => emit("exchange", code)}
             visible={panelVisible.value}
             redPackets={redPackets}
-            selectedRedpacketId={selectedRedpacketId}
+            selectedRedpacketId={redPacketId}
             onClear={clear}
           />
         </div>
@@ -152,18 +208,22 @@ export default defineComponent({
   },
 });
 
-type Header = {
-  sid?: string;
-  expiration?: string;
-  appcode?: string;
-} | Record<string, string>;
+type Header =
+  | {
+      sid?: string;
+      expiration?: string;
+      appcode?: string;
+    }
+  | Record<string, string>;
 
-type InitRedPacketsData = {
-  userId?: string;
-  orderType?: string;
-  channel?: string;
-  amount?: number;
-} | Record<string, any>;
+type InitRedPacketsData =
+  | {
+      userId?: string;
+      orderType?: string;
+      channel?: string;
+      amount?: number;
+    }
+  | Record<string, any>;
 
 /**
  * 查询可用的红包和平台活动
@@ -187,10 +247,12 @@ export async function initRedPackets(
   return mapping(response.data.data);
 }
 
-type ExchangeRedPacketData = {
-  userId?: string;
-  code?: string;
-} | Record<string, any>;
+type ExchangeRedPacketData =
+  | {
+      userId?: string;
+      code?: string;
+    }
+  | Record<string, any>;
 
 /**
  * 兑换红包
@@ -207,26 +269,28 @@ export async function exchangeRedPacket(
 ) {
   const response = await request(`${url}/${data.userId}/${data.code}`, {
     method: "GET",
-    headers
+    headers,
   });
-  Toast(response.data.message)
-  return response
+  Toast(response.data.message);
+  return response;
 }
 
-type SettleRedPacketData = {
-  orderId?: string;
-  orderType?: string;
-  couponId?: string;
-  activityId?: string;
-} | Record<string, any>;
+type SettleRedPacketData =
+  | {
+      orderId?: string;
+      orderType?: string;
+      couponId?: string;
+      activityId?: string;
+    }
+  | Record<string, any>;
 
 /**
  * 计算优惠
- * @param headers 
- * @param data 
- * @param callback 
- * @param request 
- * @param url 
+ * @param headers
+ * @param data
+ * @param callback
+ * @param request
+ * @param url
  */
 export async function settle(
   headers: Header,
@@ -239,5 +303,5 @@ export async function settle(
     headers,
     params: data,
   });
-  return response
+  return response;
 }
