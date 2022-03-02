@@ -1,5 +1,5 @@
 .mask {
-  overflow: hidden;    
+  overflow: hidden;
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #F9FAFB;
     border-radius: 2.5rem 2.5rem 0rem 0rem;
     .header {
       display: flex;
@@ -23,14 +22,14 @@
         font-size: 4.5rem;
         font-family: PingFangSC-Semibold, PingFang SC;
         font-weight: 600;
-        color: #111A34;
+        color: #111a34;
         line-height: 6.25rem;
       }
       .sub-text {
         font-size: 4rem;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
-        color: #41485D;
+        color: #41485d;
         line-height: 6rem;
       }
     }
@@ -46,10 +45,10 @@
         padding-left: 7rem;
         padding-right: 4.5rem;
         padding-bottom: 2.75rem;
-        background: #FFFFFF;
+        background: #ffffff;
         margin: 2.5rem auto;
         box-sizing: border-box;
-        .content-1{
+        .content-1 {
           width: 15.5rem;
         }
         .content-2 {
@@ -62,7 +61,7 @@
           font-size: 4rem;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
-          color: #111A34;
+          color: #111a34;
           line-height: 5.63rem;
           margin-left: 0rem;
         }
@@ -70,50 +69,98 @@
           font-size: 3rem;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #666F83;
+          color: #666f83;
           line-height: 4.13rem;
         }
         .desc {
           font-size: 3.25rem;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #858B9C;
+          color: #858b9c;
           line-height: 4.63rem;
         }
         .expires {
           font-size: 3rem;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #858B9C;
+          color: #858b9c;
           line-height: 4.13rem;
         }
-        .no-active-text{
-          color: #858B9C;
+        .no-active-text {
+          color: #858b9c;
         }
         .amount-number {
           font-size: 8.75rem;
           font-family: DINPro-Bold, DINPro;
           font-weight: bold;
-          color: #F93A4A;
+          color: #f93a4a;
           line-height: 8.75rem;
         }
-        .amount-unit{
+        .amount-unit {
           font-size: 3.25rem;
           font-family: PingFangSC-Semibold, PingFang SC;
           font-weight: 600;
-          color: #F93A4A;
+          color: #f93a4a;
           line-height: 4.63rem;
         }
-        [class^="icon-"]{
+        [class^="icon-"] {
           width: 5.5rem;
           height: 5.5rem;
         }
         .icon-check {
-          background-image: url('./assets/images/check.png');
+          background-image: url("./assets/images/check.png");
         }
         .icon-uncheck {
-          background-image: url('./assets/images/uncheck.png');
+          background-image: url("./assets/images/uncheck.png");
         }
+      }
+    }
+    .exchange-content {
+      height: 87.5rem;
+      padding-top: 3rem;
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+
+      .input {
+        width: 100%;
+        height: 12.25rem;
+        background: #f9fafb;
+        border-radius: 2rem;
+        margin-bottom: 5rem;
+        border: none;
+        padding: 0 2.63rem;
+        padding-top: 3.38rem;
+        padding-bottom: 3.25rem;
+        box-sizing: border-box;
+
+        font-size: 4rem;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #111A34;
+        line-height: 5.63rem;
+        outline: none;
+
+        &::placeholder {
+          font-size: 4rem;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #858B9C;
+          line-height: 5.63rem;
+        }
+      }
+
+      .button {
+        width: 100%;
+        height: 12rem;
+        background: #1677ff;
+        border-radius: 2.5rem;
+
+        font-size: 4.5rem;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #ffffff;
+        border: none;
+        outline: none;
       }
     }
     .no-use {

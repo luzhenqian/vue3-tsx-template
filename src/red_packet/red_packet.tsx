@@ -1,9 +1,9 @@
 import { defineComponent, PropType, ref } from "vue";
-import RedPacketSelectPanel from "./red_packet_select_panel";
-import _ from "lodash";
-import dayjs from "dayjs";
-import "./red_packet.scss";
 import axios from "axios";
+import _ from "lodash";
+import { mapping } from "./process_mapping";
+import RedPacketSelectPanel from "./red_packet_select_panel";
+import "./red_packet.scss";
 
 type Mode = "independence" | "combination";
 
@@ -24,33 +24,19 @@ type Activity = {
 };
 export type Activities = Activity[];
 
-export function rawToData(raw: any) {
-  return {
-    redPackets: rawToRedPackets(raw.coupons),
-    canUseRedPacketNumber: raw.couponNum,
-    activities: raw.activities || [],
-  };
-}
-
-function rawToRedPackets(raw: any[]): RedPackets {
-  return _.map(raw, rawToRedPacket);
-}
-
-export function rawToRedPacket(raw: any): RedPacket {
-  return {
-    id: raw.id,
-    price: raw.deductionPrice,
-    title: raw.title,
-    expires: dayjs(raw.ets * 1000).format("YYYY-MM-DD") + " 到期",
-    description: "",
-  };
-}
-
 export default defineComponent({
   props: {
     mode: {
       type: String as PropType<Mode>,
       default: "independence",
+    },
+    containerStyle: {
+      type: Object,
+      default: () => ({}),
+    },
+    readonly: {
+      type: Boolean,
+      default: false,
     },
     hasPlatformActivity: {
       type: Boolean,
@@ -92,14 +78,21 @@ export default defineComponent({
       closeSelectPanel();
     }
     return () => {
-      const { mode, redPackets, activities, selectedRedpacketId } = props;
+      const {
+        mode,
+        redPackets,
+        activities,
+        selectedRedpacketId,
+        containerStyle,
+        readonly,
+      } = props;
       const activity = activities[0];
       const selectedRedpacket = _.find(
         redPackets,
         (redPacket) => redPacket.id === selectedRedpacketId
       );
       return (
-        <div class={`container ${mode}`}>
+        <div class={`container ${mode}`} style={{ ...{pointerEvents: readonly ? 'none': 'auto'}, ...containerStyle }}>
           <div class="activity">
             <div class="title-wrapper">
               <i class="icon-activity" />
@@ -107,14 +100,14 @@ export default defineComponent({
             </div>
             <div class="amount-wrapper">
               {activities.length === 0 && (
-                <span class="title">暂无平台活动</span>
+                <span class="sub-title">暂无平台活动</span>
               )}
               {activities.length > 0 && (
                 <>
                   <span class="discounted-amount">
                     -¥{activity.deductionPrice}
                   </span>
-                  <i class="icon-arrow-down" />
+                  {readonly ? "" : <i class="icon-arrow-down" />}
                 </>
               )}
             </div>
@@ -130,7 +123,7 @@ export default defineComponent({
               onClick={() => (redPackets.length > 0 ? openSelectPanel() : null)}
             >
               {redPackets.length === 0 && (
-                <span class="title">暂无可用红包</span>
+                <span class="sub-title">暂无可用红包</span>
               )}
               {selectedRedpacket ? (
                 <div class="discounted-amount">-¥{selectedRedpacket.price}</div>
@@ -139,7 +132,7 @@ export default defineComponent({
                   <div class="can-use">{redPackets.length}个可用红包</div>
                 )
               )}
-              <div class="icon-arrow-right"></div>
+              {readonly ? "" : <i class="icon-arrow-right" />}
             </div>
           </div>
 
@@ -157,18 +150,38 @@ export default defineComponent({
   },
 });
 
+type Header = {
+  sid?: string;
+  expiration?: string;
+};
+
+type Data = {
+  userId?: string;
+  orderType?: string;
+  channel?: string;
+  amount?: number;
+};
+
+/**
+ * 查询可用的红包和平台活动
+ * @param headers 自定义请求头，比如用户身份认证
+ * @param data 自定义请求体
+ * @param request http 请求器，默认为 axios
+ * @param url 接口 url
+ * @returns
+ */
 export async function initRedPackets(
-  headers: Record<string, string>,
-  data: any,
+  headers: Header | Record<string, string>,
+  data: Data | Record<string, any>,
   request: any = axios,
-  url: string = "https://dev-me.otosaas.com/api/promotion/v2/query_promotions",
+  url: string = "https://dev-me.otosaas.com/api/promotion/v2/query_promotions"
 ) {
   const response = await request(url, {
     method: "POST",
     headers,
     data,
   });
-  return rawToData(response.data.data);
+  return mapping(response.data.data);
 }
 
 export async function checkPromotions(
@@ -176,7 +189,7 @@ export async function checkPromotions(
   data: any,
   callback: (value: any) => void,
   request: any = axios,
-  url: string = "https://dev-me.otosaas.com/api/promotion/v2/check_promotions",
+  url: string = "https://dev-me.otosaas.com/api/promotion/v2/check_promotions"
 ) {
   const response = await request(url, {
     method: "POST",
