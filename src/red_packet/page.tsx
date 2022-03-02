@@ -3,6 +3,7 @@ import RedPacket, {
   RedPackets,
   Activities,
   initRedPackets,
+  exchangeRedPacket
 } from "./red_packet";
 import "./styles.scss";
 
@@ -16,17 +17,19 @@ export default defineComponent({
       redPackets: [],
     });
     const selectedId = ref("");
+    const header = {
+      sid: "dc1244afbf0aea614782944612d1fe4f",
+      expiration: "1646273057",
+    }
+    const userId = "dc1244afbf0aea614782944612d1fe4f"
 
     initRedPackets(
+      header,
       {
-        sid: "dc1244afbf0aea614782944612d1fe4f",
-        expiration: "1646273057",
-      },
-      {
-        userId: "dc1244afbf0aea614782944612d1fe4f",
-        orderType: "train",
+        userId,
+        orderType: "train1",
         channel: "ctrip",
-        amount: 888,
+        amount: 0,
       }
     ).then((result) => {
       data.activities = result.activities;
@@ -45,6 +48,7 @@ export default defineComponent({
             selectedId.value = id;
           }}
           onClear={() => (selectedId.value = "")}
+          onExchange={(code) => {exchangeRedPacket(header, {code, userId})}}
         />
 
         <div>独立模式 只读红包</div>
@@ -53,11 +57,6 @@ export default defineComponent({
           selectedRedpacketId="13c4a57b28434d48a3889ddd55e2c5b3"
           redPackets={data.redPackets}
           activities={data.activities}
-          onCheck={(id) => {
-            if (selectedId.value === id) return (selectedId.value = "");
-            selectedId.value = id;
-          }}
-          onClear={() => (selectedId.value = "")}
         />
 
         <div style={{ backgroundColor: "#FFFFFF" }}>
@@ -83,11 +82,6 @@ export default defineComponent({
             selectedRedpacketId="13c4a57b28434d48a3889ddd55e2c5b3"
             redPackets={data.redPackets}
             activities={data.activities}
-            onCheck={(id) => {
-              if (selectedId.value === id) return (selectedId.value = "");
-              selectedId.value = id;
-            }}
-            onClear={() => (selectedId.value = "")}
           />
         </div>
       </div>

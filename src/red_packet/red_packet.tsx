@@ -1,6 +1,7 @@
 import { defineComponent, PropType, ref } from "vue";
 import axios from "axios";
 import _ from "lodash";
+import { Toast } from 'vant'
 import { mapping } from "./process_mapping";
 import RedPacketSelectPanel from "./red_packet_select_panel";
 import "./red_packet.scss";
@@ -63,7 +64,7 @@ export default defineComponent({
       default: "",
     },
   },
-  emits: ["openSelectPanel", "check", "clear", "closeSelectPanel"],
+  emits: ["openSelectPanel", "check", "clear", "closeSelectPanel", "exchange"],
   methods: {},
   setup(props, { emit }) {
     const panelVisible = ref(false);
@@ -120,7 +121,7 @@ export default defineComponent({
             </div>
             <div
               class="amount-wrapper"
-              onClick={() => (redPackets.length > 0 ? openSelectPanel() : null)}
+              onClick={openSelectPanel}
             >
               {redPackets.length === 0 && (
                 <span class="sub-title">暂无可用红包</span>
@@ -139,6 +140,7 @@ export default defineComponent({
           <RedPacketSelectPanel
             onCheck={check}
             onClose={closeSelectPanel}
+            onExchange={(code) => emit('exchange', code)}
             visible={panelVisible.value}
             redPackets={redPackets}
             selectedRedpacketId={selectedRedpacketId}
@@ -153,14 +155,15 @@ export default defineComponent({
 type Header = {
   sid?: string;
   expiration?: string;
-};
+  appcode?: string;
+} | Record<string, string>;
 
-type Data = {
+type InitRedPacketsData = {
   userId?: string;
   orderType?: string;
   channel?: string;
   amount?: number;
-};
+} | Record<string, any>;
 
 /**
  * 查询可用的红包和平台活动
@@ -171,8 +174,8 @@ type Data = {
  * @returns
  */
 export async function initRedPackets(
-  headers: Header | Record<string, string>,
-  data: Data | Record<string, any>,
+  headers: Header,
+  data: InitRedPacketsData | Record<string, any>,
   request: any = axios,
   url: string = "https://dev-me.otosaas.com/api/promotion/v2/query_promotions"
 ) {
@@ -184,17 +187,57 @@ export async function initRedPackets(
   return mapping(response.data.data);
 }
 
-export async function checkPromotions(
-  headers: Record<string, string>,
-  data: any,
-  callback: (value: any) => void,
+type ExchangeRedPacketData = {
+  userId?: string;
+  code?: string;
+} | Record<string, any>;
+
+/**
+ * 兑换红包
+ * @param headers 自定义请求头，比如用户身份认证
+ * @param data 自定义请求体
+ * @param request http 请求器，默认为 axios
+ * @param url 接口 url
+ */
+export async function exchangeRedPacket(
+  headers: Header,
+  data: ExchangeRedPacketData,
   request: any = axios,
-  url: string = "https://dev-me.otosaas.com/api/promotion/v2/check_promotions"
+  url: string = "https://dev-me.otosaas.com/api/promotion/redeem_code"
+) {
+  const response = await request(`${url}/${data.userId}/${data.code}`, {
+    method: "GET",
+    headers
+  });
+  Toast(response.data.message)
+  return response
+}
+
+type SettleRedPacketData = {
+  orderId?: string;
+  orderType?: string;
+  couponId?: string;
+  activityId?: string;
+} | Record<string, any>;
+
+/**
+ * 计算优惠
+ * @param headers 
+ * @param data 
+ * @param callback 
+ * @param request 
+ * @param url 
+ */
+export async function settle(
+  headers: Header,
+  data: SettleRedPacketData,
+  request: any = axios,
+  url: string = "https://dev-me.otosaas.com/api/settle/v1"
 ) {
   const response = await request(url, {
-    method: "POST",
+    method: "GET",
     headers,
-    data,
+    params: data,
   });
-  callback(response.data.data);
+  return response
 }

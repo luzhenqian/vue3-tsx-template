@@ -1,5 +1,6 @@
 import { defineComponent, PropType, ref } from "vue";
 import _ from "lodash";
+import { Toast } from "vant";
 import { RedPackets } from "./red_packet";
 import "./red_packet_select_panel.scss";
 
@@ -18,9 +19,10 @@ export default defineComponent({
       default: "",
     },
   },
-  emits: ["close", "check", "clear"],
+  emits: ["close", "check", "clear", "exchange"],
   setup(props, { emit }) {
     const exchangeVisible = ref(true);
+    const code = ref("");
     function check(id: string) {
       emit("check", id);
     }
@@ -28,11 +30,15 @@ export default defineComponent({
       exchangeVisible.value = true;
     }
     function cancel() {
-      if(exchangeVisible.value) {
+      if (exchangeVisible.value) {
         exchangeVisible.value = false;
       } else {
-        emit("close")
+        emit("close");
       }
+    }
+    function exchange() {
+      if (code.value === "") return Toast("请输入兑换码");
+      emit("exchange", code.value);
     }
     return () => {
       const { redPackets, visible, selectedRedpacketId } = props;
@@ -45,8 +51,10 @@ export default defineComponent({
         <div class="mask" style={{ height: visible ? "100vh" : "0px" }}>
           <div
             class="container"
-            style={{ height: visible ? "calc(87.5rem + 12.25rem)" : "0px",
-          backgroundColor: exchangeVisible.value ? '#ffffff' : '#F9FAFB' }}
+            style={{
+              height: visible ? "calc(87.5rem + 12.25rem)" : "0px",
+              backgroundColor: exchangeVisible.value ? "#ffffff" : "#F9FAFB",
+            }}
           >
             <div class="header">
               <div class="sub-text" onClick={cancel}>
@@ -64,10 +72,16 @@ export default defineComponent({
 
             {exchangeVisible.value ? (
               <div class="exchange-content">
-                <input class='input' placeholder="请输入兑换码" />
-                <button  class='button'>确定</button>
+                <input
+                  v-model_value={code.value}
+                  class="input"
+                  placeholder="请输入兑换码"
+                />
+                <button class="button" onClick={exchange}>
+                  确定
+                </button>
               </div>
-            ) : (
+            ) : redPackets.length > 0 ? (
               <div class="active-content">
                 <div class="item">
                   <div class="title">不使用红包</div>
@@ -100,6 +114,12 @@ export default defineComponent({
                     />
                   </div>
                 ))}
+              </div>
+            ) : (
+              <div class="no-data-content">
+                <div class='img'></div>
+                <div class='title'>暂无红包/优惠券</div>
+                <div class='sub-title'>您暂无可以使用的抵扣券/红包</div>
               </div>
             )}
           </div>
