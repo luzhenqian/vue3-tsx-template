@@ -39,6 +39,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // 仅 readonly 为 true 时可用
+    activityTitle: {
+      type: String
+    },
+    // 仅 readonly 为 true 时可用
+    redPacketTitle: {
+      type: String
+    },
     hasPlatformActivity: {
       type: Boolean,
       default: true,
@@ -69,7 +77,7 @@ export default defineComponent({
     "checkActivityId",
   ],
   methods: {},
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const panelVisible = ref(false);
     const activityExpand = ref(false);
     const openSelectPanel = () => (panelVisible.value = true);
@@ -90,6 +98,8 @@ export default defineComponent({
         redPacketId,
         containerStyle,
         readonly,
+        activityTitle,
+        redPacketTitle,
       } = props;
       const activity = _.maxBy(
         activities,
@@ -123,8 +133,12 @@ export default defineComponent({
               <span class="title">平台活动</span>
             </div>
             <div class="amount-wrapper">
-              {activities.length === 0 && (
-                <span class="sub-title">暂无平台活动</span>
+              {readonly ? (
+                <span class="discounted-amount">{activityTitle || (slots.activityTitle && slots.activityTitle())}</span>
+              ) : (
+                activities.length === 0 && (
+                  <span class="sub-title">暂无平台活动</span>
+                )
               )}
               {isMutex() ? (
                 <span class="mutex-text">与红包互斥</span>
@@ -179,17 +193,27 @@ export default defineComponent({
               <span class="title">红包抵扣/兑换红包</span>
             </div>
             <div class="amount-wrapper" onClick={openSelectPanel}>
-              {redPackets.length === 0 && (
-                <span class="sub-title">暂无可用红包</span>
-              )}
-              {selectedRedpacket ? (
-                <div class="discounted-amount">-¥{selectedRedpacket.price}</div>
+              {readonly ? ((
+                <span class="discounted-amount">{redPacketTitle || (slots.redPacketTitle && slots.redPacketTitle())}</span>
+              )
               ) : (
-                redPackets.length > 0 && (
-                  <div class="can-use">{redPackets.length}个可用红包</div>
-                )
+                <>
+                  {" "}
+                  {redPackets.length === 0 && (
+                    <span class="sub-title">暂无可用红包</span>
+                  )}
+                  {selectedRedpacket ? (
+                    <div class="discounted-amount">
+                      -¥{selectedRedpacket.price}
+                    </div>
+                  ) : (
+                    redPackets.length > 0 && (
+                      <div class="can-use">{redPackets.length}个可用红包</div>
+                    )
+                  )}
+                  {readonly ? "" : <i class="icon-arrow-right" />}
+                </>
               )}
-              {readonly ? "" : <i class="icon-arrow-right" />}
             </div>
           </div>
 

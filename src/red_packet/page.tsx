@@ -87,6 +87,16 @@ export default defineComponent({
             activities={data.activities}
           />
         </div>
+
+        <div style={{ backgroundColor: "#FFFFFF" }}>
+          <div>内嵌模式 只读红包 设置活动标题与红包标题</div>
+          <RedPacket
+            mode="combination"
+            readonly
+            redPacketTitle="火车票优惠红包"
+            v-slots={{activityTitle: <div style={{ color: '#c5cad5' }}>hi</div>}}
+          />
+        </div>
       </div>
     );
   },
