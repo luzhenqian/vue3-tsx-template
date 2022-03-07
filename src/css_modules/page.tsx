@@ -3,6 +3,8 @@ import styles from './styles.module.scss'
 
 export default defineComponent({
   setup(){
-    return () => <div class={styles.title}>css modules</div>
+    return () => <div class={styles.container}>
+      <div class={styles.title}>css modules</div>
+    </div>
   }
 })

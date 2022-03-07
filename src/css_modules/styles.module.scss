@@ -1,3 +1,12 @@
-.title {
-  color: red;
+.container {
+  background-color: aquamarine;
+  .title {
+    color: red;
+  }
+}
+
+.container2 {
+  .title {
+    color: green;
+  }
 }
