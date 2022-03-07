@@ -9,6 +9,7 @@ specifiers:
   '@sentry/tracing': ^6.17.9
   '@sentry/vue': ^6.17.9
   '@types/lodash': ^4.14.178
+  '@types/webpack-env': ^1.16.3
   '@vue/babel-plugin-jsx': ^1.1.1
   '@vueuse/core': ^7.6.2
   axios: ^0.25.0
@@ -61,6 +62,7 @@ dependencies:
 devDependencies:
   '@babel/core': 7.16.10
   '@babel/preset-typescript': 7.16.7_@babel+core@7.16.10
+  '@types/webpack-env': 1.16.3
   '@vue/babel-plugin-jsx': 1.1.1_@babel+core@7.16.10
   babel-loader: 8.2.3_dfc450ce54b9de99856805a7be396663
   babel-plugin-import: 1.13.3
@@ -663,6 +665,10 @@ packages:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
       '@types/node': 17.0.10
+    dev: true
+
+  /@types/webpack-env/1.16.3:
+    resolution: {integrity: sha512-9gtOPPkfyNoEqCQgx4qJKkuNm/x0R2hKR7fdl7zvTJyHnIisuE/LfvXOsYWL0o3qq6uiBnKZNNNzi3l0y/X+xw==}
     dev: true
 
   /@types/ws/8.2.2:
