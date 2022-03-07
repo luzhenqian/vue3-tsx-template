@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import './styles.scss'
 
 export default defineComponent({
   setup(){
