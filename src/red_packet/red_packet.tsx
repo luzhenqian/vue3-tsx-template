@@ -4,7 +4,8 @@ import _ from "lodash";
 import { Toast } from "vant";
 import { mapping } from "./process_mapping";
 import RedPacketSelectPanel from "./red_packet_select_panel";
-import "./red_packet.scss";
+import styles from "./red_packet.module.scss";
+import classNames from "classnames";
 
 type Mode = "independence" | "combination";
 
@@ -41,11 +42,11 @@ export default defineComponent({
     },
     // 仅 readonly 为 true 时可用
     activityTitle: {
-      type: String
+      type: String,
     },
     // 仅 readonly 为 true 时可用
     redPacketTitle: {
-      type: String
+      type: String,
     },
     hasPlatformActivity: {
       type: Boolean,
@@ -121,32 +122,35 @@ export default defineComponent({
       }
       return (
         <div
-          class={`container ${mode}`}
+          class={classNames(styles.container, styles[mode])}
           style={{
             ...{ pointerEvents: readonly ? "none" : "auto" },
             ...containerStyle,
           }}
         >
-          <div class="activity">
-            <div class="title-wrapper">
-              <i class="icon-activity" />
-              <span class="title">平台活动</span>
+          <div class={styles.activity}>
+            <div class={styles["title-wrapper"]}>
+              <i class={styles["icon-activity"]} />
+              <span class={styles.title}>平台活动</span>
             </div>
-            <div class="amount-wrapper">
+            <div class={styles["amount-wrapper"]}>
               {readonly ? (
-                <span class="discounted-amount">{activityTitle || (slots.activityTitle && slots.activityTitle())}</span>
+                <span class={styles["discounted-amount"]}>
+                  {activityTitle ||
+                    (slots.activityTitle && slots.activityTitle())}
+                </span>
               ) : (
                 activities.length === 0 && (
-                  <span class="sub-title">暂无平台活动</span>
+                  <span class={styles["sub-title"]}>暂无平台活动</span>
                 )
               )}
               {isMutex() ? (
-                <span class="mutex-text">与红包互斥</span>
+                <span class={styles["mutex-text"]}>与红包互斥</span>
               ) : (
                 activities.length > 0 &&
                 activity && (
                   <>
-                    <span class="discounted-amount">
+                    <span class={styles["discounted-amount"]}>
                       -¥{activity.deductionPrice}
                     </span>
                     {readonly ? (
@@ -156,7 +160,7 @@ export default defineComponent({
                         onClick={() => {
                           activityExpand.value = !activityExpand.value;
                         }}
-                        class="icon-arrow-down"
+                        class={styles["icon-arrow-down"]}
                         style={{
                           transform: activityExpand.value
                             ? "rotate(180deg)"
@@ -173,13 +177,13 @@ export default defineComponent({
           {activityExpand.value &&
             activities.map((activity) => {
               return (
-                <div class="sub-activity">
-                  <div class="title-wrapper">
-                    <i class="icon-activity" />
-                    <span class="title">{activity.title}</span>
+                <div class={styles["sub-activity"]}>
+                  <div class={styles["title-wrapper"]}>
+                    <i class={styles["icon-activity"]} />
+                    <span class={styles["title"]}>{activity.title}</span>
                   </div>
-                  <div class="amount-wrapper">
-                    <span class="discounted-amount">
+                  <div class={styles["amount-wrapper"]}>
+                    <span class={styles["discounted-amount"]}>
                       -¥{activity.deductionPrice}
                     </span>
                   </div>
@@ -187,31 +191,35 @@ export default defineComponent({
               );
             })}
 
-          <div class="redpacket">
-            <div class="title-wrapper">
-              <i class="icon-redpacket" />
-              <span class="title">红包抵扣/兑换红包</span>
+          <div class={styles["redpacket"]}>
+            <div class={styles["title-wrapper"]}>
+              <i class={styles["icon-redpacket"]} />
+              <span class={styles["title"]}>红包抵扣/兑换红包</span>
             </div>
-            <div class="amount-wrapper" onClick={openSelectPanel}>
-              {readonly ? ((
-                <span class="discounted-amount">{redPacketTitle || (slots.redPacketTitle && slots.redPacketTitle())}</span>
-              )
+            <div class={styles["amount-wrapper"]} onClick={openSelectPanel}>
+              {readonly ? (
+                <span class={styles["discounted-amount"]}>
+                  {redPacketTitle ||
+                    (slots.redPacketTitle && slots.redPacketTitle())}
+                </span>
               ) : (
                 <>
                   {" "}
                   {redPackets.length === 0 && (
-                    <span class="sub-title">暂无可用红包</span>
+                    <span class={styles["sub-title"]}>暂无可用红包</span>
                   )}
                   {selectedRedpacket ? (
-                    <div class="discounted-amount">
+                    <div class={styles["discounted-amount"]}>
                       -¥{selectedRedpacket.price}
                     </div>
                   ) : (
                     redPackets.length > 0 && (
-                      <div class="can-use">{redPackets.length}个可用红包</div>
+                      <div class={styles["can-use"]}>
+                        {redPackets.length}个可用红包
+                      </div>
                     )
                   )}
-                  {readonly ? "" : <i class="icon-arrow-right" />}
+                  {readonly ? "" : <i class={styles["icon-arrow-right"]} />}
                 </>
               )}
             </div>
