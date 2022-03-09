@@ -91,7 +91,7 @@ export default defineComponent({
                   />
                 </div>
                 {redPackets.map((redPacket) => (
-                  <div class={styles['item']} key={redPacket.id}>
+                  <div class={styles['item']} key={redPacket.id} onClick={() => check(redPacket.id)}>
                     <div class={styles['content-1']}>
                       <div>
                         <span class={styles['amount-number']}>{redPacket.price}</span>
@@ -105,11 +105,10 @@ export default defineComponent({
                       <div class={styles['expires']}>{redPacket.expires}</div>
                     </div>
                     <i
-                      onClick={() => check(redPacket.id)}
                       class={
                         selectedRedpacketId === redPacket.id
-                          ? "icon-check"
-                          : "icon-uncheck"
+                          ? styles["icon-check"]
+                          : styles["icon-uncheck"]
                       }
                     />
                   </div>
