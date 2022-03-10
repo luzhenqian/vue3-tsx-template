@@ -191,12 +191,12 @@ export default defineComponent({
               );
             })}
 
-          <div class={styles["redpacket"]}>
+          <div class={styles["redpacket"]} onClick={openSelectPanel}>
             <div class={styles["title-wrapper"]}>
               <i class={styles["icon-redpacket"]} />
               <span class={styles["title"]}>红包抵扣/兑换红包</span>
             </div>
-            <div class={styles["amount-wrapper"]} onClick={openSelectPanel}>
+            <div class={styles["amount-wrapper"]}>
               {readonly ? (
                 <span class={styles["discounted-amount"]}>
                   {redPacketTitle ||

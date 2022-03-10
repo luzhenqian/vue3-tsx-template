@@ -18,6 +18,16 @@
       display: flex;
       justify-content: space-between;
       padding: 3.13rem 3.75rem;
+      & > * {
+        text-align: center;
+        flex: 1;
+      }
+      &>:first-child {
+        text-align: left;
+      }
+      &>:last-child {
+        text-align: right;
+      }
       .text {
         font-size: 4.5rem;
         font-family: PingFangSC-Semibold, PingFang SC;
@@ -41,14 +51,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 87.75rem;
         padding-top: 3.75rem;
         padding-left: 7rem;
         padding-right: 4.5rem;
         padding-bottom: 2.75rem;
         background: #ffffff;
-        margin: 2.5rem auto;
+        margin: 2.5rem 3rem;
         box-sizing: border-box;
+        border-radius: 2rem;
         .content-1 {
           width: 15.5rem;
         }
@@ -114,6 +124,9 @@
         .icon-uncheck {
           background-image: url("./assets/images/uncheck.png");
         }
+      }
+      .no-use {
+        padding-left: 3rem;
       }
     }
     .no-data-content {

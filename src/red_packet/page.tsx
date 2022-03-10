@@ -24,15 +24,33 @@ export default defineComponent({
     };
     const userId = "dc1244afbf0aea614782944612d1fe4f";
 
-    initRedPackets(header, {
-      userId,
-      orderType: "train",
-      channel: "ctrip",
-      amount: 20,
-    }).then((result) => {
-      data.activities = result.activities;
-      data.redPackets = result.redPackets;
-    });
+    // initRedPackets(header, {
+    //   userId,
+    //   orderType: "train",
+    //   channel: "ctrip",
+    //   amount: 20,
+    // }).then((result) => {
+    //   data.activities = result.activities;
+    //   // data.redPackets = result.redPackets;
+    //   data.redPackets = [
+    //     {
+    //       id: '1',
+    //       price: 1,
+    //       title: 'ddd',
+    //       expires: 'fsafasfasdfasas',
+    //       description: 'dddd'
+    //     }
+    //   ]
+    // });
+    data.redPackets = [
+      {
+        id: '1',
+        price: 1,
+        title: '红包',
+        expires: 'fsafasfasdfasas',
+        description: 'dddd'
+      }
+    ]
 
     return () => (
       <div class="page">

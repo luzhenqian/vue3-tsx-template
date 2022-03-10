@@ -3,6 +3,7 @@ import _ from "lodash";
 import { Toast } from "vant";
 import { RedPackets } from "./red_packet";
 import styles from "./red_packet_select_panel.module.scss";
+import classNames from 'classnames'
 
 export default defineComponent({
   props: {
@@ -83,11 +84,12 @@ export default defineComponent({
               </div>
             ) : redPackets.length > 0 ? (
               <div class={styles['active-content']}>
-                <div class={styles['item']}>
+                <div
+                  class={classNames(styles['item'], styles['no-use'])}            
+                  onClick={() => emit("clear")}>
                   <div class={styles['title']}>不使用红包</div>
                   <i
-                    onClick={() => emit("clear")}
-                    class={!selected ? "icon-check" : "icon-uncheck"}
+                    class={!selected ? styles["icon-check"] : styles["icon-uncheck"]}
                   />
                 </div>
                 {redPackets.map((redPacket) => (
