@@ -19,20 +19,23 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    exchangeVisible: {
+      type: Boolean,
+      default: false
+    }
   },
-  emits: ["close", "check", "clear", "exchange"],
+  emits: ["close", "check", "clear", "exchange", "update:exchangeVisible"],
   setup(props, { emit }) {
-    const exchangeVisible = ref(false);
     const code = ref("");
     function check(id: string) {
       emit("check", id);
     }
     function showExchange() {
-      exchangeVisible.value = true;
+      emit('update:exchangeVisible', true)
     }
     function cancel() {
-      if (exchangeVisible.value) {
-        exchangeVisible.value = false;
+      if(props.exchangeVisible) {
+        emit('update:exchangeVisible', false)
       } else {
         emit("close");
       }
@@ -42,7 +45,7 @@ export default defineComponent({
       emit("exchange", code.value);
     }
     return () => {
-      const { redPackets, visible, selectedRedpacketId } = props;
+      const { redPackets, visible, selectedRedpacketId, exchangeVisible } = props;
 
       const selected = _.find(
         redPackets,
@@ -54,15 +57,15 @@ export default defineComponent({
             class={styles['container']}
             style={{
               height: visible ? "calc(87.5rem + 12.25rem)" : "0px",
-              backgroundColor: exchangeVisible.value ? "#ffffff" : "#F9FAFB",
+              backgroundColor: exchangeVisible ? "#ffffff" : "#F9FAFB",
             }}
           >
             <div class={styles['header']}>
               <div class={styles['sub-text']} onClick={cancel}>
                 取消
               </div>
-              <div class={styles['text']}>{exchangeVisible.value ? "" : "选择红包"}</div>
-              {exchangeVisible.value ? (
+              <div class={styles['text']}>{exchangeVisible ? "" : "选择红包"}</div>
+              {exchangeVisible ? (
                 ""
               ) : (
                 <div class={styles['sub-text']} onClick={showExchange}>
@@ -71,7 +74,7 @@ export default defineComponent({
               )}
             </div>
 
-            {exchangeVisible.value ? (
+            {exchangeVisible ? (
               <div class={styles['exchange-content']}>
                 <input
                   v-model_value={code.value}

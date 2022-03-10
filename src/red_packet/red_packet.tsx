@@ -68,6 +68,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    exchange: {
+      type: Function,
+      default: () => false
+    },
   },
   emits: [
     "openSelectPanel",
@@ -76,13 +80,26 @@ export default defineComponent({
     "closeSelectPanel",
     "exchange",
     "checkActivityId",
+    "refresh",
   ],
   methods: {},
   setup(props, { emit, slots }) {
+    const { exchange } = props;
     const panelVisible = ref(false);
     const activityExpand = ref(false);
+    const exchangeVisible = ref(false);
     const openSelectPanel = () => (panelVisible.value = true);
     const closeSelectPanel = () => (panelVisible.value = false);
+    const handleExchange = async (code: string) => {
+      const result = await exchange(code);
+      if (result) {
+        exchangeVisible.value = false;
+        Toast("兑换成功");
+        emit("refresh");
+      } else {
+        Toast("兑换失败");
+      }
+    };
     function check(id: string) {
       emit("check", id);
       closeSelectPanel();
@@ -226,9 +243,10 @@ export default defineComponent({
           </div>
 
           <RedPacketSelectPanel
+            v-model:exchangeVisible={exchangeVisible.value}
             onCheck={check}
             onClose={closeSelectPanel}
-            onExchange={(code) => emit("exchange", code)}
+            onExchange={handleExchange}
             visible={panelVisible.value}
             redPackets={redPackets}
             selectedRedpacketId={redPacketId}

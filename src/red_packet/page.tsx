@@ -44,13 +44,25 @@ export default defineComponent({
     // });
     data.redPackets = [
       {
-        id: '1',
+        id: "1",
         price: 1,
-        title: '红包',
-        expires: 'fsafasfasdfasas',
-        description: 'dddd'
-      }
-    ]
+        title: "红包",
+        expires: "fsafasfasdfasas",
+        description: "dddd",
+      },
+    ];
+
+    const handleRefresh = () => {
+      data.redPackets.push(
+        {
+          id: "" + Math.random(),
+          price: 1,
+          title: "红包" + Math.random(),
+          expires: "fsafasfasdfasas",
+          description: "dddd",
+        }
+      )
+    }
 
     return () => (
       <div class="page">
@@ -58,6 +70,11 @@ export default defineComponent({
         <div>红包 id:{selectedId.value}</div>
         <div>平台活动 id: {activityId.value}</div>
         <RedPacket
+          exchange={(code: string) => {
+            console.log("code:", code);
+            return true;
+          }}
+          onRefresh={handleRefresh}
           redPackets={data.redPackets}
           activities={data.activities}
           redPacketId={selectedId.value}
@@ -112,7 +129,9 @@ export default defineComponent({
             mode="combination"
             readonly
             redPacketTitle="火车票优惠红包"
-            v-slots={{activityTitle: <div style={{ color: '#c5cad5' }}>hi</div>}}
+            v-slots={{
+              activityTitle: <div style={{ color: "#c5cad5" }}>hi</div>,
+            }}
           />
         </div>
       </div>
