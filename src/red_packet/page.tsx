@@ -18,11 +18,11 @@ export default defineComponent({
     });
     const selectedId = ref("");
     const activityId = ref("");
+    const userId = "afec62bb14da81b865a54678ac1a42ae";
     const header = {
-      sid: "dc1244afbf0aea614782944612d1fe4f",
-      expiration: "1646273057",
+      sid: userId,
+      expiration: "1647052704",
     };
-    const userId = "dc1244afbf0aea614782944612d1fe4f";
 
     // initRedPackets(header, {
     //   userId,
@@ -70,9 +70,12 @@ export default defineComponent({
         <div>红包 id:{selectedId.value}</div>
         <div>平台活动 id: {activityId.value}</div>
         <RedPacket
-          exchange={(code: string) => {
+          exchange={async (code: string) => {
             console.log("code:", code);
-            return true;
+            const r = await exchangeRedPacket(header, { userId, code })
+            console.log('r: ', r)
+            return r.data
+            // return { code: 0, message: '兑换成功'};
           }}
           onRefresh={handleRefresh}
           redPackets={data.redPackets}
@@ -83,9 +86,9 @@ export default defineComponent({
             selectedId.value = id;
           }}
           onClear={() => (selectedId.value = "")}
-          onExchange={(code) => {
-            exchangeRedPacket(header, { code, userId });
-          }}
+          // onExchange={(code) => {
+          //   exchangeRedPacket(header, { code, userId });
+          // }}
           onCheckActivityId={(id: string) => (activityId.value = id)}
         />
 

@@ -92,12 +92,12 @@ export default defineComponent({
     const closeSelectPanel = () => (panelVisible.value = false);
     const handleExchange = async (code: string) => {
       const result = await exchange(code);
-      if (result) {
+      if (result.code === 0) {
         exchangeVisible.value = false;
-        Toast("兑换成功");
+        Toast(result.message);
         emit("refresh");
       } else {
-        Toast("兑换失败");
+        Toast(result.message);
       }
     };
     function check(id: string) {

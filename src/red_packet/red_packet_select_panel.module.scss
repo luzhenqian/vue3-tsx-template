@@ -22,10 +22,10 @@
         text-align: center;
         flex: 1;
       }
-      &>:first-child {
+      & > :first-child {
         text-align: left;
       }
-      &>:last-child {
+      & > :last-child {
         text-align: right;
       }
       .text {
@@ -47,6 +47,9 @@
       height: 87.5rem;
       overflow: auto;
       background-color: #f9faf8;
+      &::-webkit-scrollbar {
+        display: none;
+      }
       .item {
         display: flex;
         justify-content: space-between;
